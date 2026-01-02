@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNowPlaying"
         android:layout_width="0dp"
@@ -155,19 +154,33 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/search_background"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:queryHint="Search songs..."
+        app:searchIcon="@drawable/ic_search"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardNowPlaying" />
     <TextView
         android:id="@+id/tvPlaylistHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="All Songs"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardNowPlaying" />
-
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"

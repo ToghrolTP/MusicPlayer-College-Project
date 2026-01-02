@@ -16,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.splashscreen.SplashScreen; // Added Import
+import androidx.core.splashscreen.SplashScreen;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeViews();
+
+        setupSearchListener();
 
         songList = new ArrayList<>();
 
@@ -174,8 +177,11 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        songAdapter = new SongAdapter(songList, position -> {
-            playSong(position);
+        songAdapter = new SongAdapter(songList, song -> {
+            int index = songList.indexOf(song);
+            if (index != -1) {
+                playSong(index);
+            }
         });
 
         recyclerView.setAdapter(songAdapter);
@@ -298,5 +304,24 @@ public class MainActivity extends AppCompatActivity {
         //     mediaPlayer.pause();
         //     updatePlayPauseButton(false);
         // }
+    }
+
+    private void setupSearchListener() {
+        SearchView searchView = findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (songAdapter != null) {
+                    songAdapter.getFilter().filter(newText);
+                }
+                return false;
+            }
+        });
     }
 }
