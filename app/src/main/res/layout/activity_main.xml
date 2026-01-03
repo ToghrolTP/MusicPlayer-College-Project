@@ -4,30 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/background_gradient"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/tvPlaylistHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="All Songs"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toTopOf="@id/cardNowPlaying"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPlaylistHeader" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNowPlaying"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
         app:cardBackgroundColor="@color/surface"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toTopOf="@id/searchView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp">
+            android:padding="12dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardArt"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,14 +75,14 @@
                 android:id="@+id/songTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:ellipsize="marquee"
                 android:gravity="center"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="No song playing"
                 android:textColor="@color/text_primary"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,12 +92,11 @@
                 android:id="@+id/artistName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Unknown Artist"
                 android:textColor="@color/text_secondary"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/songTitle" />
@@ -79,7 +105,7 @@
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:progressTint="@color/accent"
                 android:thumbTint="@color/accent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +119,7 @@
                 android:layout_marginStart="8dp"
                 android:text="0:00"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@id/seekBar"
                 app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
@@ -104,16 +130,16 @@
                 android:layout_marginEnd="8dp"
                 android:text="0:00"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="@id/seekBar"
                 app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
             <ImageButton
                 android:id="@+id/btnPrevious"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Previous"
                 android:src="@drawable/ic_skip_previous"
@@ -124,12 +150,12 @@
 
             <ImageButton
                 android:id="@+id/btnPlayPause"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/circle_background"
                 android:contentDescription="Play/Pause"
                 android:elevation="6dp"
-                android:padding="16dp"
+                android:padding="12dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_play"
                 app:layout_constraintBottom_toBottomOf="@id/btnPrevious"
@@ -140,9 +166,9 @@
 
             <ImageButton
                 android:id="@+id/btnNext"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Next"
                 android:src="@drawable/ic_skip_next"
@@ -157,40 +183,17 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/search_background"
-        app:iconifiedByDefault="false"
-        app:queryBackground="@null"
-        app:queryHint="Search songs..."
-        app:searchIcon="@drawable/ic_search"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardNowPlaying" />
-    <TextView
-        android:id="@+id/tvPlaylistHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="All Songs"
-        android:textColor="@color/text_primary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="8dp"
+        app:iconifiedByDefault="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPlaylistHeader" />
+        app:queryBackground="@null"
+        app:queryHint="Search songs..."
+        app:searchIcon="@drawable/ic_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
