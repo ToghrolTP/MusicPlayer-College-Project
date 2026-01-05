@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
+import android.widget.ImageView; // Added Import
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide; // Added Import
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView songTitle, artistName, currentTime, totalTime;
+    private ImageView albumArt; // Added Variable for Cover Art
     private ImageButton btnPlayPause, btnNext, btnPrevious;
     private SeekBar seekBar;
 
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         artistName = findViewById(R.id.artistName);
         currentTime = findViewById(R.id.currentTime);
         totalTime = findViewById(R.id.totalTime);
+
+        // Initialize the ImageView
+        albumArt = findViewById(R.id.albumArt);
 
         btnPlayPause = findViewById(R.id.btnPlayPause);
         btnNext = findViewById(R.id.btnNext);
@@ -153,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.DURATION
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.ALBUM_ID // Added ALBUM_ID to projection
         };
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
@@ -166,12 +174,14 @@ public class MainActivity extends AppCompatActivity {
                 String artist = cursor.getString(1);
                 String path = cursor.getString(2);
                 long duration = cursor.getLong(3);
+                long albumId = cursor.getLong(4); // Retrieve Album ID
 
                 if (artist == null || artist.equals("<unknown>")) {
                     artist = "Unknown Artist";
                 }
 
-                Song song = new Song(title, artist, path, duration);
+                // Pass albumId to the new Constructor (5 args)
+                Song song = new Song(title, artist, path, duration, albumId);
                 songList.add(song);
             }
             cursor.close();
@@ -256,6 +266,13 @@ public class MainActivity extends AppCompatActivity {
         artistName.setText(song.getArtist());
         totalTime.setText(song.getFormattedDuration());
 
+        // Load Album Art with Glide
+        Glide.with(this)
+                .load(song.getAlbumArtUri())
+                .placeholder(R.drawable.ic_music_note)
+                .error(R.drawable.ic_music_note)
+                .into(albumArt);
+
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setProgress(0);
     }
@@ -300,10 +317,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-        //     mediaPlayer.pause();
-        //     updatePlayPauseButton(false);
-        // }
     }
 
     private void setupSearchListener() {
