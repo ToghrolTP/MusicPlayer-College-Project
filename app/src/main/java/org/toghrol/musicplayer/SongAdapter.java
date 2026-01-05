@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView; // Added import
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide; // Added import for Glide
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,18 +94,29 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         private TextView titleTextView;
         private TextView artistTextView;
         private TextView durationTextView;
+        private ImageView albumArtImageView; // Variable for the cover image
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.songItemTitle);
             artistTextView = itemView.findViewById(R.id.songItemArtist);
             durationTextView = itemView.findViewById(R.id.songItemDuration);
+            // Link to the ID you added in song_item.xml
+            albumArtImageView = itemView.findViewById(R.id.imgSongCover);
         }
 
         public void bind(Song song) {
             titleTextView.setText(song.getTitle());
             artistTextView.setText(song.getArtist());
             durationTextView.setText(song.getFormattedDuration());
+
+            // Use Glide to load the image
+            Glide.with(itemView.getContext())
+                    .load(song.getAlbumArtUri()) // Loads URI from the Song object
+                    .placeholder(R.drawable.ic_music_note) // Shows default icon while loading
+                    .error(R.drawable.ic_music_note) // Shows default icon if no cover found
+                    .centerCrop() // Ensures the image fills the square nicely
+                    .into(albumArtImageView);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
